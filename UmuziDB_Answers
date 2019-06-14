@@ -1,0 +1,213 @@
+(base) johanna@johanna-HP-Compaq-6000-Pro-MT-PC:~$ sudo mysql -u root -p
+[sudo] password for johanna: 
+Enter password: 
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 13
+Server version: 5.7.26-0ubuntu0.18.04.1 (Ubuntu)
+
+Copyright (c) 2000, 2019, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> SELECT User,Host FROM mysql.user;
++------------------+-----------+
+| User             | Host      |
++------------------+-----------+
+| debian-sys-maint | localhost |
+| mysql.session    | localhost |
+| mysql.sys        | localhost |
+| root             | localhost |
++------------------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> SHOW DATABASES;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| Umuzi              |
+| mysql              |
+| performance_schema |
+| sys                |
++--------------------+
+5 rows in set (0.00 sec)
+
+mysql> USE Umuzi;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> SHOW TABLES;
++-----------------+
+| Tables_in_Umuzi |
++-----------------+
+| Customers       |
+| Employees       |
+| Orders          |
+| Payments        |
+| Products        |
++-----------------+
+5 rows in set (0.00 sec)
+
+mysql> SELECT * FROM Customers;
++------------+-----------+----------+--------+-----------------------+-----------+------------------------+--------------+--------------+
+| CustomerID | FirstName | LastName | Gender | Address               | Phone     | Email                  | City         | Country      |
++------------+-----------+----------+--------+-----------------------+-----------+------------------------+--------------+--------------+
+|          1 | John      | Hibert   | Male   | 284 chaucer st        |  84789657 | john@gmail.com         | Johannesburg | South Africa |
+|          3 | Leon      | Glen     | Male   | 81 Everton Rd,Gillits | 820832830 | Leon@gmail.com         | Durban       | South Africa |
+|          4 | Charl     | Muller   | Male   | 290A Dorset Ecke      | 856872553 | Charl.muller@yahoo.com | Berlin       | Germany      |
+|          5 | Julia     | Stein    | Female | 2 Wernerring          | 672445058 | Js234@yahoo.com        | Frankfurt    | Germany      |
++------------+-----------+----------+--------+-----------------------+-----------+------------------------+--------------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT FirstName FROM Customers;
++-----------+
+| FirstName |
++-----------+
+| John      |
+| Leon      |
+| Charl     |
+| Julia     |
++-----------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT firstName FROM Customers WHERE customerID = 1;
++-----------+
+| firstName |
++-----------+
+| John      |
++-----------+
+1 row in set (0.01 sec)
+
+mysql> UPDATE Customers SET firstName = 'Lerato', lastName = 'Mabitso' WHERE customerID = 1;
+Query OK, 1 row affected (0.03 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> SELECT * FROM Customers WHERE customerID = 1;
++------------+-----------+----------+--------+----------------+----------+----------------+--------------+--------------+
+| CustomerID | FirstName | LastName | Gender | Address        | Phone    | Email          | City         | Country      |
++------------+-----------+----------+--------+----------------+----------+----------------+--------------+--------------+
+|          1 | Lerato    | Mabitso  | Male   | 284 chaucer st | 84789657 | john@gmail.com | Johannesburg | South Africa |
++------------+-----------+----------+--------+----------------+----------+----------------+--------------+--------------+
+1 row in set (0.00 sec)
+
+mysql> DELETE FROM Customers WHERE CustomerID = 2;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> SELECT * FROM Customers;
++------------+-----------+----------+--------+-----------------------+-----------+------------------------+--------------+--------------+
+| CustomerID | FirstName | LastName | Gender | Address               | Phone     | Email                  | City         | Country      |
++------------+-----------+----------+--------+-----------------------+-----------+------------------------+--------------+--------------+
+|          1 | Lerato    | Mabitso  | Male   | 284 chaucer st        |  84789657 | john@gmail.com         | Johannesburg | South Africa |
+|          3 | Leon      | Glen     | Male   | 81 Everton Rd,Gillits | 820832830 | Leon@gmail.com         | Durban       | South Africa |
+|          4 | Charl     | Muller   | Male   | 290A Dorset Ecke      | 856872553 | Charl.muller@yahoo.com | Berlin       | Germany      |
+|          5 | Julia     | Stein    | Female | 2 Wernerring          | 672445058 | Js234@yahoo.com        | Frankfurt    | Germany      |
++------------+-----------+----------+--------+-----------------------+-----------+------------------------+--------------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> SELECT DISTINCT * FROM Products;
++-----------+-------------------------+-----------------------------------------------------------------------------+----------+
+| ProductId | ProductName             | Description                                                                 | BuyPrice |
++-----------+-------------------------+-----------------------------------------------------------------------------+----------+
+|         1 | Harley Davidson Chopper | This replica features working kickstand, front suspension, gear-shift lever |      151 |
+|         2 | Classic Car             | Turnable front wheels, steering function                                    |      551 |
+|         3 | Sports car              | Turnable front wheels, steering function                                    |      701 |
++-----------+-------------------------+-----------------------------------------------------------------------------+----------+
+3 rows in set (0.02 sec)
+
+mysql> SELECT MAX(amount) FROM Payments;
++-------------+
+| MAX(amount) |
++-------------+
+|         251 |
++-------------+
+1 row in set (0.02 sec)
+
+mysql> SELECT * FROM Customers ORDER BY country ASC;
++------------+-----------+----------+--------+-----------------------+-----------+------------------------+--------------+--------------+
+| CustomerID | FirstName | LastName | Gender | Address               | Phone     | Email                  | City         | Country      |
++------------+-----------+----------+--------+-----------------------+-----------+------------------------+--------------+--------------+
+|          4 | Charl     | Muller   | Male   | 290A Dorset Ecke      | 856872553 | Charl.muller@yahoo.com | Berlin       | Germany      |
+|          5 | Julia     | Stein    | Female | 2 Wernerring          | 672445058 | Js234@yahoo.com        | Frankfurt    | Germany      |
+|          1 | Lerato    | Mabitso  | Male   | 284 chaucer st        |  84789657 | john@gmail.com         | Johannesburg | South Africa |
+|          3 | Leon      | Glen     | Male   | 81 Everton Rd,Gillits | 820832830 | Leon@gmail.com         | Durban       | South Africa |
++------------+-----------+----------+--------+-----------------------+-----------+------------------------+--------------+--------------+
+4 rows in set (0.01 sec)
+
+mysql> SELECT * FROM Products WHERE BuyPrice BETWEEN 100 AND 600;
++-----------+-------------------------+-----------------------------------------------------------------------------+----------+
+| ProductId | ProductName             | Description                                                                 | BuyPrice |
++-----------+-------------------------+-----------------------------------------------------------------------------+----------+
+|         1 | Harley Davidson Chopper | This replica features working kickstand, front suspension, gear-shift lever |      151 |
+|         2 | Classic Car             | Turnable front wheels, steering function                                    |      551 |
++-----------+-------------------------+-----------------------------------------------------------------------------+----------+
+2 rows in set (0.01 sec)
+
+mysql> SELECT * FROM Customers WHERE city = 'Germany' OR city = 'Berlin';
++------------+-----------+----------+--------+------------------+-----------+------------------------+--------+---------+
+| CustomerID | FirstName | LastName | Gender | Address          | Phone     | Email                  | City   | Country |
++------------+-----------+----------+--------+------------------+-----------+------------------------+--------+---------+
+|          4 | Charl     | Muller   | Male   | 290A Dorset Ecke | 856872553 | Charl.muller@yahoo.com | Berlin | Germany |
++------------+-----------+----------+--------+------------------+-----------+------------------------+--------+---------+
+1 row in set (0.02 sec)
+
+mysql> SELECT * FROM Customers WHERE city = 'cape town' OR city = 'durban';
++------------+-----------+----------+--------+-----------------------+-----------+----------------+--------+--------------+
+| CustomerID | FirstName | LastName | Gender | Address               | Phone     | Email          | City   | Country      |
++------------+-----------+----------+--------+-----------------------+-----------+----------------+--------+--------------+
+|          3 | Leon      | Glen     | Male   | 81 Everton Rd,Gillits | 820832830 | Leon@gmail.com | Durban | South Africa |
++------------+-----------+----------+--------+-----------------------+-----------+----------------+--------+--------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT * FROM Products WHERE BuyPrice>500;
++-----------+-------------+------------------------------------------+----------+
+| ProductId | ProductName | Description                              | BuyPrice |
++-----------+-------------+------------------------------------------+----------+
+|         2 | Classic Car | Turnable front wheels, steering function |      551 |
+|         3 | Sports car  | Turnable front wheels, steering function |      701 |
++-----------+-------------+------------------------------------------+----------+
+2 rows in set (0.00 sec)
+
+mysql> SELECT SUM(amount) FROM Payments;
++-------------+
+| SUM(amount) |
++-------------+
+|         351 |
++-------------+
+1 row in set (0.01 sec)
+
+mysql> SELECT COUNT(status) FROM Orders WHERE status = 'shipped';
++---------------+
+| COUNT(status) |
++---------------+
+|             1 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> SELECT AVG(BuyPrice) FROM Products;
++---------------+
+| AVG(BuyPrice) |
++---------------+
+|      467.6667 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql>  SELECT * FROM Payments INNER JOIN Customers;
++------------+---------------------+--------+------------+-----------+----------+--------+-----------------------+-----------+------------------------+--------------+--------------+
+| CustomerID | PaymentDate         | Amount | CustomerID | FirstName | LastName | Gender | Address               | Phone     | Email                  | City         | Country      |
++------------+---------------------+--------+------------+-----------+----------+--------+-----------------------+-----------+------------------------+--------------+--------------+
+|          1 | 2018-01-09 00:00:00 |    100 |          1 | Lerato    | Mabitso  | Male   | 284 chaucer st        |  84789657 | john@gmail.com         | Johannesburg | South Africa |
+|          2 | 2018-01-09 00:00:00 |    251 |          1 | Lerato    | Mabitso  | Male   | 284 chaucer st        |  84789657 | john@gmail.com         | Johannesburg | South Africa |
+|          1 | 2018-01-09 00:00:00 |    100 |          3 | Leon      | Glen     | Male   | 81 Everton Rd,Gillits | 820832830 | Leon@gmail.com         | Durban       | South Africa |
+|          2 | 2018-01-09 00:00:00 |    251 |          3 | Leon      | Glen     | Male   | 81 Everton Rd,Gillits | 820832830 | Leon@gmail.com         | Durban       | South Africa |
+|          1 | 2018-01-09 00:00:00 |    100 |          4 | Charl     | Muller   | Male   | 290A Dorset Ecke      | 856872553 | Charl.muller@yahoo.com | Berlin       | Germany      |
+|          2 | 2018-01-09 00:00:00 |    251 |          4 | Charl     | Muller   | Male   | 290A Dorset Ecke      | 856872553 | Charl.muller@yahoo.com | Berlin       | Germany      |
+|          1 | 2018-01-09 00:00:00 |    100 |          5 | Julia     | Stein    | Female | 2 Wernerring          | 672445058 | Js234@yahoo.com        | Frankfurt    | Germany      |
+|          2 | 2018-01-09 00:00:00 |    251 |          5 | Julia     | Stein    | Female | 2 Wernerring          | 672445058 | Js234@yahoo.com        | Frankfurt    | Germany      |
++------------+---------------------+--------+------------+-----------+----------+--------+-----------------------+-----------+------------------------+--------------+--------------+
+8 rows in set (0.03 sec)
+
